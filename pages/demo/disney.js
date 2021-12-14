@@ -9,10 +9,8 @@ export default function Disney() {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetch data via the browser (client side), during the first render.
-   */
-  useEffect(async () => {
+  // Fetch data from the API.
+  async function fetchData() {
     try {
       const response = await fetch(`https://api.disneyapi.dev/characters`);
       const json = await response.json();
@@ -23,6 +21,13 @@ export default function Disney() {
       setData(`error: ${error}`);
       setLoading(false);
     }
+  }
+
+  /**
+   * Perform fetch via the browser (client side), during the first render.
+   */
+  useEffect(() => {
+    fetchData();
   }, []);
 
   // If loading, display a loading message.

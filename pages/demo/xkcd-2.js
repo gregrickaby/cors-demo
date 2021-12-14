@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 
 /**
- * Unsplash API - Part 2.
+ * XKCD API - Part 2
+ *
+ * A solution would be to query our custom API endpoint from inside the app itself.
  */
-export default function UnsplashCopy() {
+export default function XKCD() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Fetch the data from myself. No API key required.
-   *
-   * @see https://nextjs.org/docs/api-routes/introduction
-   */
-  useEffect(async () => {
+  async function fetchData() {
     try {
-      const response = await fetch(`/api/unsplash/`);
+      const response = await fetch(`/api/xkcd`);
       const json = await response.json();
       setData(json);
       setLoading(false);
@@ -23,17 +20,21 @@ export default function UnsplashCopy() {
       setData(`error: ${error}`);
       setLoading(false);
     }
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   if (loading) {
-    return <p>Stand by for a random photo...</p>;
+    return <p>The comic is loading...</p>;
   }
 
   return (
     <>
       <pre>{JSON.stringify(data, null, 2)}</pre>
-      <h1>{data?.description}</h1>
-      <img src={data?.urls?.small} alt={data?.alt_description} />
+      <h1>{data?.title}</h1>
+      <img src={data?.img} alt={data?.alt} />
     </>
   );
 }

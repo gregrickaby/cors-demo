@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 /**
  * XKCD API - Part 1
  *
- * This API endpoint is protected by CORS, so this ain't gonna work 👎
+ * This API endpoint is protected by CORS, so this ain't gonna work.
  */
 export default function XKCD() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(async () => {
+  async function fetchData() {
     try {
       const response = await fetch(`https://xkcd.com/327/info.0.json`);
       const json = await response.json();
@@ -20,6 +20,10 @@ export default function XKCD() {
       setData(`error: ${error}`);
       setLoading(false);
     }
+  }
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   if (loading) {

@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
 
 /**
- * Unsplash API - Part 1
+ * Unsplash API - Part 2.
  *
- * This API endpoint does not care about CORS either, but does require an API key!
+ * Rather than passing the API key to the client, let's use a custom API endpoint.
  */
-export default function Unsplash() {
+export default function UnsplashCopy() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   async function fetchData() {
     try {
-      const response = await fetch(
-        `https://api.unsplash.com/photos/random/?client_id=${process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY}`
-      );
+      const response = await fetch(`/api/unsplash/`);
       const json = await response.json();
       setData(json);
       setLoading(false);
@@ -25,9 +23,9 @@ export default function Unsplash() {
   }
 
   /**
-   * Expose an ENV var to the browser via "NEXT_PUBLIC_".
+   * Fetch the data from myself. No API key required.
    *
-   * @see https://nextjs.org/docs/basic-features/environment-variables#exposing-environment-variables-to-the-browser
+   * @see https://nextjs.org/docs/api-routes/introduction
    */
   useEffect(() => {
     fetchData();
